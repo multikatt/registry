@@ -1,0 +1,13 @@
+[Unit]
+Description=Registry Server
+After=docker.service
+Requires=docker.service
+
+[Service]
+ExecStartPre=/usr/bin/docker build -t registry .
+ExecStart=/usr/bin/docker run --name registry -p 5000:5000 registry
+ExecStopPre=/usr/bin/docker kill registry
+ExecStop=/usr/bin/docker rm registry
+TimeoutStartSec=0
+Restart=always
+RestartSec=10s
